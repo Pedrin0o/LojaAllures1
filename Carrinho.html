@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Lexend:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Carrinho.css"> <!-- Link para o arquivo CSS -->
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <!-- Adicione o conteúdo do seu cabeçalho aqui, como logo e navegação -->
+    </header>
+
+    <!-- Conteúdo do Carrinho -->
+    <div class="cart-container">
+        <h1>Carrinho de Compras</h1>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Total</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <tr>
+                    <td><img src="Bayern de Munique 23_24 - All Black.JPG" alt="Produto" class="product-img"></td>
+                    <td><input type="number" class="quantity-input" value="1" min="1"></td>
+                    <td class="unit-price">R$ 150,00</td>
+                    <td class="total-price">R$ 150,00</td>
+                    <td><button class="remove-btn">Remover</button></td>
+                </tr>
+                <!-- Exemplo de produto adicionado ao carrinho -->
+            </tbody>
+        </table>
+
+        <div class="total">
+            <strong>Total: </strong> R$ <span id="grand-total">150,00</span>
+        </div>
+
+        <a href="checkout.html" class="checkout-btn">Finalizar Compra</a>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 Allures Sports. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Função para atualizar o total do produto e o total geral
+        function updateTotal() {
+            let totalPrice = 0;
+            const cartItems = document.querySelectorAll('#cart-items tr');
+            
+            cartItems.forEach(item => {
+                const quantity = item.querySelector('.quantity-input').value;
+                const unitPrice = parseFloat(item.querySelector('.unit-price').textContent.replace('R$', '').trim());
+                const totalPricePerItem = quantity * unitPrice;
+                item.querySelector('.total-price').textContent = 'R$ ' + totalPricePerItem.toFixed(2);
+                totalPrice += totalPricePerItem;
+            });
+
+            document.getElementById('grand-total').textContent = totalPrice.toFixed(2);
+        }
+
+        // Função para remover produto do carrinho
+        function removeItem(event) {
+            const row = event.target.closest('tr');
+            row.remove();
+            updateTotal(); // Atualiza o total após remoção
+        }
+
+        // Adicionando event listener para cada botão de remoção
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', removeItem);
+        });
+
+        // Adicionando event listener para cada input de quantidade
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('input', updateTotal);
+        });
+
+        // Atualiza o total ao carregar a página
+        window.onload = updateTotal;
+    </script>
+
+</body>
+</html>
